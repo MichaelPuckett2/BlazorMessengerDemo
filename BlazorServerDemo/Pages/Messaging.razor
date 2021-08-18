@@ -1,0 +1,42 @@
+﻿@page "/messaging"
+@inject IMessenger messenger
+
+<h3>Messaging</h3>
+
+<div>User</div>
+<input @bind="User" />
+
+<div>Message</div>
+<input @bind="Message" />
+
+<button class="btn btn-primary" @onclick="SendMessage">Send Message</button>
+
+@foreach (var kvp in messenger.Messages)
+{
+    <div class="table">
+        <div class="d-table-row">@kvp.Key says : @kvp.Value </div>
+    </div>
+}
+
+@code {
+
+    public string User { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        messenger.Updated += MessengerUpdated;
+    }
+
+    private async void MessengerUpdated(object sender, EventArgs e)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void SendMessage()
+    {
+        messenger.SendMessage(User, Message);
+        Message = string.Empty;
+    }
+}
