@@ -5,10 +5,8 @@ namespace BlazorServerDemo.Data
 {
     public interface IMessenger
     {
-        List<KeyValuePair<string, string>> Messages { get; set; }
-
         event EventHandler Updated;
-
+        List<KeyValuePair<string, string>> Messages { get; set; }
         void SendMessage(string user, string message);
     }
 }

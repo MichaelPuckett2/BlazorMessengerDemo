@@ -20,18 +20,13 @@
 
 @code {
 
-    public string User { get; set; } = string.Empty;
-    public string Message { get; set; } = string.Empty;
+    public string User { get; set; }
+    public string Message { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        messenger.Updated += MessengerUpdated;
-    }
-
-    private async void MessengerUpdated(object sender, EventArgs e)
-    {
-        await InvokeAsync(StateHasChanged);
+        messenger.Updated += async (s, e) => await InvokeAsync(StateHasChanged);
     }
 
     public void SendMessage()
